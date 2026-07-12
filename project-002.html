@@ -1,1 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Project 002 | Employee Onboarding Automation</title>
+  <meta name="description" content="Employee onboarding automation using Microsoft Power Automate, Microsoft Entra ID, Excel, and Microsoft 365.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+  <div class="container nav">
+    <a class="brand" href="index.html"><span class="mark">FC</span> FRAIRE CLOUD</a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="index.html#projects">Projects</a>
+      <a href="resume.html">Resume</a>
+      <a href="https://www.linkedin.com/in/lorena-fraire-184a9a249/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/frairecloud" target="_blank" rel="noopener">GitHub</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+  </div>
+</header>
 
+<main>
+<section class="project-header">
+  <div class="container narrow">
+    <p class="eyebrow">Project 002</p>
+    <h1>Employee Onboarding Automation</h1>
+    <p class="lead">Microsoft Power Automate · Microsoft Entra ID · Excel · Microsoft 365</p>
+    <div class="callout">
+      <p><strong>Project goal:</strong> Automate new-user provisioning from an HR-managed Excel table, generate account details, create the Microsoft Entra ID user, update the tracking record, and send a welcome email.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container narrow prose">
+    <h2>Executive Summary</h2>
+    <p>This project demonstrates an automated employee onboarding solution built with Microsoft Power Automate, Microsoft Entra ID, Excel, and Microsoft 365. The workflow reduces repetitive administrative work by reading new-hire information from an HR spreadsheet, generating standardized identity values, creating the user account, updating the onboarding record, and sending a personalized welcome email.</p>
+
+    <h2>My Role</h2>
+    <p>I independently designed, built, tested, troubleshot, and documented the workflow. I created the Excel data structure, developed the Power Automate logic, generated display names and user principal names, created temporary passwords, provisioned users in Microsoft Entra ID, updated onboarding status, and configured the welcome email process.</p>
+
+    <h2>Business Challenge</h2>
+    <p>Manual onboarding can require multiple repetitive steps across HR and IT. Each new hire may require account creation, username generation, temporary password creation, status tracking, and communication of access details. Manual processing increases the risk of inconsistent naming, missing information, delays, and data-entry errors.</p>
+
+    <h2>Solution</h2>
+    <p>The solution uses an Excel table as the onboarding intake source and Power Automate as the orchestration layer. The workflow:</p>
+    <ul>
+      <li>Reads employee information from an Excel table.</li>
+      <li>Builds the employee display name.</li>
+      <li>Generates the first initial, last name, base alias, and final user principal name.</li>
+      <li>Creates a temporary password.</li>
+      <li>Creates the user in Microsoft Entra ID.</li>
+      <li>Updates the Excel onboarding record.</li>
+      <li>Sends a personalized welcome email.</li>
+    </ul>
+
+    <h2>Environment</h2>
+    <div class="cards">
+      <article class="card"><h3>Platform</h3><p>Microsoft 365<br>Microsoft Power Automate<br>Microsoft Entra ID</p></article>
+      <article class="card"><h3>Data Source</h3><p>Microsoft Excel table used as the HR onboarding intake and status-tracking source.</p></article>
+      <article class="card"><h3>Automation Functions</h3><p>User provisioning<br>UPN generation<br>Temporary passwords<br>Status updates<br>Welcome email delivery</p></article>
+    </div>
+
+    <h2>Workflow Implementation</h2>
+
+    <h3>1. Trigger, Excel Intake, and Variable Initialization</h3>
+    <p>The workflow begins with a manual trigger, reads new-hire records from an Excel table, and initializes the variables required for the user principal name, display name, and temporary password.</p>
+    <figure>
+      <img src="assets/Onboarding-01-Flow-Trigger.png" alt="Power Automate onboarding trigger and variable initialization">
+      <figcaption>Manual trigger, Excel table intake, and initialization of identity and password variables.</figcaption>
+    </figure>
+
+    <h3>2. Employee Processing and Username Logic</h3>
+    <p>An Apply to each loop processes every Excel record. The workflow builds the display name and generates the first initial, last name, and base alias used for the account naming convention.</p>
+    <figure>
+      <img src="assets/Onboarding-02-UPN-Generation.png" alt="Power Automate UPN and alias generation logic">
+      <figcaption>Employee processing logic used to construct standardized account names and aliases.</figcaption>
+    </figure>
+
+    <h3>3. Account Creation, Tracking, and Welcome Email</h3>
+    <p>The workflow creates the Microsoft Entra ID account using the generated values, updates the corresponding Excel row, and sends the welcome email.</p>
+    <figure>
+      <img src="assets/Onboarding-03-User-Creation.png" alt="Power Automate Entra user creation and welcome email">
+      <figcaption>Temporary password assignment, final UPN generation, Entra ID user creation, Excel update, and welcome email delivery.</figcaption>
+    </figure>
+
+    <h3>4. HR Excel Integration</h3>
+    <p>The Excel table provides a structured intake method for new-hire information and a record of onboarding status.</p>
+    <figure>
+      <img src="assets/Onboarding-04-HR-Template.png" alt="Excel employee onboarding template">
+      <figcaption>HR onboarding template containing employee identity, job, contact, manager, status, and temporary-password fields.</figcaption>
+    </figure>
+
+    <h2>Business Impact</h2>
+    <div class="callout">
+      <ul>
+        <li>Reduces repetitive account-provisioning work.</li>
+        <li>Improves naming consistency across new accounts.</li>
+        <li>Decreases the risk of manual data-entry errors.</li>
+        <li>Creates a repeatable and documented onboarding process.</li>
+        <li>Improves visibility through Excel status tracking.</li>
+        <li>Provides a scalable foundation for additional licensing, group, and device-assignment steps.</li>
+      </ul>
+    </div>
+
+    <h2>Challenges and Solutions</h2>
+    <h3>Dynamic User Principal Name Generation</h3>
+    <p><strong>Challenge:</strong> Building a consistent account name from employee data while keeping the logic reusable.</p>
+    <p><strong>Solution:</strong> Separated the first initial, last name, base alias, and final UPN into dedicated Compose and variable actions.</p>
+
+    <h3>Temporary Password Handling</h3>
+    <p><strong>Challenge:</strong> Creating a temporary credential that could be used during account creation and communicated through the onboarding process.</p>
+    <p><strong>Solution:</strong> Generated and stored the temporary password in a workflow variable, then reused it in the account-creation and notification steps.</p>
+
+    <h3>HR and IT Process Alignment</h3>
+    <p><strong>Challenge:</strong> Keeping HR intake information and IT provisioning status aligned.</p>
+    <p><strong>Solution:</strong> Used the Excel table as both the intake source and the status-tracking record, allowing the workflow to update the same row after processing.</p>
+
+    <h2>Project Outcome</h2>
+    <p>Successfully created a reusable Microsoft 365 onboarding workflow that connects HR intake data with Microsoft Entra ID provisioning, account naming, temporary password generation, status tracking, and welcome-email delivery.</p>
+
+    <h2>Skills Demonstrated</h2>
+    <div class="cards">
+      <article class="card"><h3>Microsoft Cloud</h3><p>Microsoft 365<br>Microsoft Entra ID<br>Identity lifecycle management<br>User provisioning</p></article>
+      <article class="card"><h3>Automation</h3><p>Power Automate<br>Variables and Compose actions<br>Apply to each loops<br>Excel integration</p></article>
+      <article class="card"><h3>Professional Skills</h3><p>Process improvement<br>Troubleshooting<br>Technical documentation<br>Solution design</p></article>
+    </div>
+
+    <div class="buttons">
+      <a class="button primary" href="index.html">Back to Home</a>
+      <a class="button secondary" href="project-001.html">View Project 001</a>
+      <a class="button secondary" href="resume.html">View Resume</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>© 2026 Fraire Cloud · Built with GitHub and Azure Static Web Apps</footer>
+</body>
+</html>
