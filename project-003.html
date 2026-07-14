@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Project 003 | Employee Offboarding Automation</title>
+  <meta name="description" content="Sanitized enterprise case study: Microsoft 365 employee offboarding automation using Power Automate, Microsoft Entra ID, Exchange Online, and distribution-list cleanup.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+  <div class="container nav">
+    <a class="brand" href="index.html"><span class="mark">FC</span> FRAIRE CLOUD</a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="index.html#projects">Projects</a>
+      <a href="resume.html">Resume</a>
+      <a href="https://www.linkedin.com/in/lorena-fraire-184a9a249/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/frairecloud" target="_blank" rel="noopener">GitHub</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<section class="project-header">
+  <div class="container narrow">
+    <p class="eyebrow">Project 003 · Sanitized Enterprise Case Study</p>
+    <h1>Employee Offboarding Automation</h1>
+    <p class="lead">Microsoft Power Automate · Microsoft Entra ID · Exchange Online · Distribution List Cleanup</p>
+
+    <div class="callout">
+      <p><strong>Privacy note:</strong> This case study documents a production automation I designed and implemented in a prior enterprise environment. Client names, tenant details, user information, and screenshots are intentionally excluded.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container narrow prose">
+
+    <h2>Executive Summary</h2>
+    <p>This project automated a repetitive Microsoft 365 offboarding task: removing departing employees from Exchange Online distribution lists. A scheduled Power Automate workflow reviewed members of a designated Offboarding group, identified the distribution lists associated with each user, and removed those memberships through Microsoft Graph requests.</p>
+    <p>The solution reduced manual administration, improved consistency, and helped prevent former employees from continuing to receive internal distribution-list communications.</p>
+
+    <h2>My Role</h2>
+    <p>I independently designed, built, tested, troubleshot, and documented the workflow. My work included defining the offboarding control group, retrieving its members, querying distribution lists, handling nested iteration, configuring authenticated Microsoft Graph requests, resolving JSON and URI errors, and validating successful membership removal.</p>
+
+    <h2>Business Challenge</h2>
+    <p>Offboarding administrators often need to locate and remove a departing employee from multiple distribution lists. Completing this work manually is repetitive, time-consuming, and easy to overlook—especially when users belong to many lists across a large Microsoft 365 environment.</p>
+
+    <h2>Business Requirements</h2>
+    <ul>
+      <li>Use a designated Offboarding group as the source of users requiring cleanup.</li>
+      <li>Run automatically on a recurring schedule.</li>
+      <li>Retrieve every user currently assigned to the Offboarding group.</li>
+      <li>Identify applicable Exchange Online distribution lists.</li>
+      <li>Remove each departing user from matching distribution-list memberships.</li>
+      <li>Use a repeatable process that reduces manual effort and human error.</li>
+      <li>Document the workflow for support, maintenance, and future enhancement.</li>
+    </ul>
+
+    <h2>Solution Architecture</h2>
+    <div class="cards">
+      <article class="card">
+        <h3>Control Group</h3>
+        <p>A Microsoft 365 group named <strong>Offboarding</strong> served as the operational queue for users requiring distribution-list cleanup.</p>
+      </article>
+      <article class="card">
+        <h3>Automation Engine</h3>
+        <p>A scheduled Power Automate cloud flow retrieved group members and processed each user through the cleanup logic.</p>
+      </article>
+      <article class="card">
+        <h3>Microsoft Graph</h3>
+        <p>Authenticated HTTP requests were used to remove distribution-list memberships programmatically.</p>
+      </article>
+    </div>
+
+    <h2>Workflow Overview</h2>
+    <div class="callout">
+      <p><strong>Scheduled trigger</strong> → Find the Offboarding group → Retrieve group members → Process each user → Retrieve eligible distribution lists → Remove matching memberships through Microsoft Graph → Record a successful run.</p>
+    </div>
+
+    <h2>Automation Process</h2>
+
+    <h3>1. Scheduled Execution</h3>
+    <p>The cloud flow ran on a recurring schedule so administrators did not need to launch the cleanup process manually.</p>
+
+    <h3>2. Offboarding Group Lookup</h3>
+    <p>The workflow located the Microsoft 365 group by its display name and retrieved the group's unique identifier.</p>
+
+    <h3>3. Member Retrieval</h3>
+    <p>The flow retrieved all users currently placed in the Offboarding group and processed each member individually.</p>
+
+    <h3>4. Distribution List Discovery</h3>
+    <p>The workflow queried mail-enabled, non-security groups to identify the distribution lists that required membership evaluation.</p>
+
+    <h3>5. Automated Membership Removal</h3>
+    <p>For each applicable user and distribution list, the workflow issued an authenticated Microsoft Graph HTTP DELETE request to remove the user's membership.</p>
+
+    <h2>Key Technical Challenges</h2>
+
+    <h3>Nested Iteration</h3>
+    <p><strong>Challenge:</strong> The automation needed to process multiple users and multiple distribution lists without mixing values between loops.</p>
+    <p><strong>Resolution:</strong> Structured the workflow with clearly separated Apply to each actions and referenced the correct current-item values at each level.</p>
+
+    <h3>JSON Response Handling</h3>
+    <p><strong>Challenge:</strong> Early versions failed when expected response properties were referenced incorrectly.</p>
+    <p><strong>Resolution:</strong> Corrected the response handling and removed unnecessary parsing steps so the flow used the returned values reliably.</p>
+
+    <h3>Microsoft Graph URI Construction</h3>
+    <p><strong>Challenge:</strong> Membership-removal requests failed when the Graph resource path was incomplete or malformed.</p>
+    <p><strong>Resolution:</strong> Corrected the resource URI and dynamically inserted the required group and user identifiers.</p>
+
+    <h3>Authentication and Permissions</h3>
+    <p><strong>Challenge:</strong> The HTTP action required the correct Microsoft Entra ID resource configuration and sufficient permissions.</p>
+    <p><strong>Resolution:</strong> Configured the connection to authenticate against Microsoft Graph and validated the service account's access.</p>
+
+    <h2>Business Impact</h2>
+    <div class="callout">
+      <ul>
+        <li>Reduced repetitive distribution-list cleanup work.</li>
+        <li>Improved consistency across employee offboarding.</li>
+        <li>Lowered the risk of overlooked memberships.</li>
+        <li>Created a repeatable, scheduled administrative process.</li>
+        <li>Improved security by removing unnecessary access to internal email communications.</li>
+        <li>Provided a foundation for broader lifecycle automation.</li>
+      </ul>
+    </div>
+
+    <h2>Project Outcome</h2>
+    <p>The final workflow successfully processed users assigned to the Offboarding group and removed their distribution-list memberships through Microsoft Graph. The automation was stabilized after resolving nested-loop, response-handling, authentication, and URI-construction issues.</p>
+
+    <h2>Skills Demonstrated</h2>
+    <div class="cards">
+      <article class="card">
+        <h3>Microsoft 365 Administration</h3>
+        <p>Exchange Online<br>Microsoft 365 Groups<br>Distribution Lists<br>User lifecycle management</p>
+      </article>
+      <article class="card">
+        <h3>Automation</h3>
+        <p>Power Automate<br>Scheduled cloud flows<br>Nested iteration<br>Microsoft Graph REST requests</p>
+      </article>
+      <article class="card">
+        <h3>Professional Skills</h3>
+        <p>Troubleshooting<br>Security improvement<br>Process design<br>Technical documentation</p>
+      </article>
+    </div>
+
+    <div class="buttons">
+      <a class="button primary" href="index.html">Back to Home</a>
+      <a class="button secondary" href="project-002.html">View Project 002</a>
+      <a class="button secondary" href="resume.html">View Resume</a>
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+<footer>© 2026 Fraire Cloud · Built with GitHub and Azure Static Web Apps</footer>
+
+</body>
+</html>
